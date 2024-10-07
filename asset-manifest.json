@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/Handloom/static/css/main.f88f1205.css",
-    "main.js": "/Handloom/static/js/main.2b805459.js",
+    "main.js": "/Handloom/static/js/main.a12a1af6.js",
     "static/js/968.53c98b87.chunk.js": "/Handloom/static/js/968.53c98b87.chunk.js",
     "static/js/42.6cae29e3.chunk.js": "/Handloom/static/js/42.6cae29e3.chunk.js",
     "index.html": "/Handloom/index.html",
     "main.f88f1205.css.map": "/Handloom/static/css/main.f88f1205.css.map",
-    "main.2b805459.js.map": "/Handloom/static/js/main.2b805459.js.map",
+    "main.a12a1af6.js.map": "/Handloom/static/js/main.a12a1af6.js.map",
     "968.53c98b87.chunk.js.map": "/Handloom/static/js/968.53c98b87.chunk.js.map",
     "42.6cae29e3.chunk.js.map": "/Handloom/static/js/42.6cae29e3.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.f88f1205.css",
-    "static/js/main.2b805459.js"
+    "static/js/main.a12a1af6.js"
   ]
 }
