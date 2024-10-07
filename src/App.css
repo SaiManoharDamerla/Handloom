@@ -1,0 +1,35 @@
+/* Additional styles to ensure the dropdowns behave nicely */
+.group:hover .group-hover\:block {
+  display: block;
+}
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(100px);
+    filter: blur(33px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.animate-slideIn {
+  animation: slideIn 1s ease-in-out forwards;
+}
+
+@keyframes contentFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-contentFadeIn {
+  animation: contentFadeIn 0.5s ease-in-out forwards;
+}
