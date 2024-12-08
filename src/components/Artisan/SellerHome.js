@@ -67,6 +67,20 @@ const SellerHome = () => {
           <h3 className="text-lg font-semibold">Track Orders</h3>
           <p className="mt-2">Track the status of pending shipments</p>
         </Link>
+        <Link
+          to="/artisan/feedbackreport"
+          className="bg-gray-800 text-white p-6 rounded-lg shadow-md text-center"
+        >
+          <h3 className="text-lg font-semibold">FeedBack Report</h3>
+          <p className="mt-2">Track the feedbacks Submitted</p>
+        </Link>
+        <Link
+          to="/artisan/contactadmin"
+          className="bg-gray-800 text-white p-6 rounded-lg shadow-md text-center"
+        >
+          <h3 className="text-lg font-semibold">Contact Admin</h3>
+          <p className="mt-2">Report issues to admin</p>
+        </Link>
       </div>
 
       {/* Recent Orders Table */}

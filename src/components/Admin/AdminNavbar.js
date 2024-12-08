@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { CiUser } from 'react-icons/ci'; // Import icon for user profile
 
 const AdminNavbar = () => {
   return (
@@ -14,14 +13,12 @@ const AdminNavbar = () => {
         <Link to="/admin/adminhome" className="hover:text-gray-400">
             Home
           </Link>
-          <Link to="/admin/manageusers" className="hover:text-gray-400">
-            Manage Users
+          <Link to="/admin/managesellers" className="hover:text-gray-400">
+            Manage Sellers
           </Link>
-          <Link to="/admin/manageproducts" className="hover:text-gray-400">
-            Manage Products
-          </Link>
-          <Link to="/admin/adminvieworders" className="hover:text-gray-400">
-            View Orders
+          
+          <Link to="/admin/salesoverview" className="hover:text-gray-400">
+           SalesOverview
           </Link>
           <Link to="/" className="hover:text-gray-400">
             Logout

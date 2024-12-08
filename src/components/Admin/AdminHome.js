@@ -8,36 +8,19 @@ const AdminHome = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Card for Managing Users */}
         <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300">
-          <h2 className="text-xl font-semibold mb-2">Manage Users</h2>
+          <h2 className="text-xl font-semibold mb-2">Manage Sellers</h2>
           <p className="text-gray-600 mb-4">
             View, add, update, and remove users from the platform.
           </p>
-          <Link to="/admin/manageusers" className="text-blue-500 hover:underline">
-            Go to Users
+          <Link to="/admin/ManageSellers" className="text-blue-500 hover:underline">
+            Go to Sellers
           </Link>
         </div>
 
-        {/* Card for Managing Products */}
-        <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300">
-          <h2 className="text-xl font-semibold mb-2">Manage Products</h2>
-          <p className="text-gray-600 mb-4">
-            Add, update, or delete products available in the store.
-          </p>
-          <Link to="/admin/manageproducts" className="text-blue-500 hover:underline">
-            Go to Products
-          </Link>
-        </div>
+        
 
         {/* Card for Viewing Orders */}
-        <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300">
-          <h2 className="text-xl font-semibold mb-2">View Orders</h2>
-          <p className="text-gray-600 mb-4">
-            Track and manage all orders placed by customers.
-          </p>
-          <Link to="/admin/adminvieworders" className="text-blue-500 hover:underline">
-            Go to Orders
-          </Link>
-        </div>
+        
 
         {/* Additional Metrics or Cards */}
         <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300">
@@ -51,12 +34,12 @@ const AdminHome = () => {
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300">
-          <h2 className="text-xl font-semibold mb-2">Site Settings</h2>
+          <h2 className="text-xl font-semibold mb-2">Contact Report</h2>
           <p className="text-gray-600 mb-4">
-            Manage site settings and configurations.
+            Manage the report.
           </p>
-          <Link to="/admin/sitesettings" className="text-blue-500 hover:underline">
-            Go to Settings
+          <Link to="/admin/contactreport" className="text-blue-500 hover:underline">
+            See Status
           </Link>
         </div>
       </div>

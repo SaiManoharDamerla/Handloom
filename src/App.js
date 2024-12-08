@@ -5,8 +5,7 @@ import './App.css';
 // Import components
 import Header from './components/Shared/Header';
 import Footer from './components/Shared/Footer';
-import ManageUsers from './components/Admin/ManageUsers';
-import ManageProducts from './components/Admin/ManageProducts';
+import ManageSellers from './components/Admin/ManageSellers';
 import ManageInventory from './components/Artisan/ManageInventory';
 import ViewOrders from './components/Artisan/ViewOrders';
 import Cart from './components/Buyer/Cart';
@@ -23,7 +22,6 @@ import Cushions from './components/Buyer/Cushions';
 import Rugs from './components/Buyer/Rugs';
 import Wishlist from './components/Buyer/Wishlist';
 import PaymentPage from './components/Buyer/PaymentPage';
-import OrderSummary from './components/Buyer/OrderSummary';
 import OrderConfirmation from './components/Buyer/OrderConfirmation';
 import OrderDetails from './components/Buyer/OrderDetails';
 import Navbar from './components/Artisan/Navbar';
@@ -32,9 +30,19 @@ import Profile from './components/Artisan/Profile';
 import UserProfile from './components/Buyer/UserProfile';
 import AdminNavbar from './components/Admin/AdminNavbar';
 import AdminHome from './components/Admin/AdminHome';
-import AdminViewOrders from './components/Admin/AdminViewOrders';
 import SellerHome from './components/Artisan/SellerHome';
 import SalesOverview from './components/Admin/SalesOverview';
+import Feedback from './components/Buyer/Feedback';
+import ContactUs from './components/Buyer/ContactUs';
+import FeedbackReport from './components/Artisan/FeedbackReport';
+import ContactReport from './components/Admin/ContactReport';
+import ContactAdmin from './components/Artisan/ContactAdmin';
+import AddSeller from './components/Admin/AddSeller';
+import AddProduct from './components/Artisan/AddProduct';
+import ViewProducts from './components/Artisan/ViewProduct';
+import Orders from './components/Buyer/orders';
+import TrackOrder from './components/Buyer/trackorder';
+import ForgotPassword from './components/Auth/forgetpassword';
 
 
 
@@ -46,18 +54,23 @@ function App() {
           <Routes>
          
             {/* Admin Routes */}
-            <Route path="/admin/manageusers" element={<><AdminNavbar/><ManageUsers /></>} />
-            <Route path="/admin/manageproducts" element={<><AdminNavbar/><ManageProducts /></>} />
+            <Route path="/admin/ManageSellers" element={<><AdminNavbar/><ManageSellers /></>} />
             <Route path="/admin/adminhome" element={<><AdminNavbar/><AdminHome /></>} />
-            <Route path="/admin/adminvieworders" element={<><AdminNavbar/><AdminViewOrders /></>} />
             <Route path="/admin/salesoverview" element={<><AdminNavbar/><SalesOverview /></>} />
-
+            <Route path="/admin/ContactReport" element={<><AdminNavbar/><ContactReport /></>}/>
+            <Route path="/admin/add-seller" element={<><AdminNavbar/><AddSeller /></>
+            } />
             {/* Artisan Routes */}
             <Route path="/artisan/manageinventory" element={<><Navbar/><ManageInventory /></>} />
             <Route path="/artisan/vieworders" element={<><Navbar/><ViewOrders /></>} />
             <Route path="/artisan/trackorders" element={<><Navbar/><TrackOrders /></>} />
             <Route path="/artisan/profile" element={<><Navbar/><Profile /></>} />
             <Route path="/artisan/home" element={<><Navbar/>< SellerHome/></>} />
+            <Route path="/artisan/feedbackreport" element={<><Navbar/><FeedbackReport /></>} />
+            <Route path="/artisan/contactadmin" element={<><Navbar/><ContactAdmin/></>}/>
+            <Route path="/artisan/addproduct" element={<><Navbar/><AddProduct/></>}/>
+            <Route path="/artisan/viewproducts" element={<><Navbar/><ViewProducts/> </>}/>
+
 
 
             {/* Buyer Routes */}
@@ -73,15 +86,20 @@ function App() {
             <Route path="/buyer/cushions" element={<> <Header />  <Cushions /></> } />
             <Route path="/buyer/rugs" element={<> <Header />  <Rugs /></> } />
             <Route path="/buyer/paymentpage" element={<> <Header />  <PaymentPage /></> } />
-            <Route path="/buyer/ordersummary" element={<> <Header />  <OrderSummary /></> } />
             <Route path="/buyer/orderconfirmation" element={<> <Header />  <OrderConfirmation /></> } />
             <Route path="/buyer/orderdetails" element={<> <Header />  <OrderDetails /></> } />
+            <Route path="/buyer/feedback" element={<> <Header /> <Feedback /> </>}/>
+            <Route path="/buyer/contactus" element={<><Header/><ContactUs/> </>} />
             <Route path="/buyer/userprofile" element={<> <Header />  <UserProfile /></> } />
+            <Route path="/buyer/orders" element={<> <Header /> <Orders/> </> } />
+            <Route path="/buyer/trackorder/:orderid" element={<> <Header /> <TrackOrder/> </> } />
+            
 
 
             {/* Authentication */}
             <Route path="/" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/forgetpassword" element={<ForgotPassword />} />
 
             {/* Not Found Route */}
             <Route path="*" element={<><Header/><NotFound /></>} />
@@ -94,3 +112,4 @@ function App() {
 }
 
 export default App;
+

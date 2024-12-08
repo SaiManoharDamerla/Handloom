@@ -1,98 +1,132 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import Loader from './../Shared/Loader';
 
 const Cushions = () => {
-  const [wishlist, setWishlist] = useState([]); // State for managing wishlist
+  const [cushions, setCushions] = useState([]); // State to store cushions fetched from API
+  const [quantities, setQuantities] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+  
 
-  const cushions = [
-    {
-      id: 1,
-      name: 'Floral Embroidered Cushion',
-      description: 'A vibrant cushion with floral embroidery to add a touch of elegance.',
-      price: '₹800',
-      image: 'https://th.bing.com/th/id/OIP.4aAJlgGZL_PLc3H7hC5yIAHaHa?w=192&h=192&c=7&r=0&o=5&dpr=2&pid=1.7',
-    },
-    {
-      id: 2,
-      name: 'Velvet Luxury Cushion',
-      description: 'Soft velvet cushion, perfect for adding a luxurious feel to your decor.',
-      price: '₹1000',
-      image: 'https://th.bing.com/th/id/OIP.i57O__B2VWlEUD745z-oZAHaHa?w=204&h=204&c=7&r=0&o=5&dpr=2&pid=1.7',
-    },
-    {
-      id: 3,
-      name: 'Geometric Pattern Cushion',
-      description: 'A modern cushion with geometric patterns, ideal for contemporary spaces.',
-      price: '₹1100',
-      image: 'https://th.bing.com/th/id/OIP.JJTyRIAo0ZFqKA_k303UZAHaHx?w=184&h=193&c=7&r=0&o=5&dpr=2&pid=1.7',
-    },
-    {
-      id: 4,
-      name: 'Handwoven Cotton Cushion',
-      description: 'A handwoven cotton cushion, bringing comfort and style to any room.',
-      price: '₹1000',
-      image: 'https://th.bing.com/th/id/OIP.7K0ZImIZaa_clWylvdR-ogHaHs?w=190&h=197&c=7&r=0&o=5&dpr=2&pid=1.7',
-    },
-    {
-      id: 5,
-      name: 'Textured Linen Cushion',
-      description: 'A textured linen cushion that complements any sofa or chair.',
-      price: '₹1300',
-      image: 'https://th.bing.com/th/id/OIP.RUkPP99MmD5Y3dK49L_XHAHaGq?w=216&h=194&c=7&r=0&o=5&dpr=2&pid=1.7',
-    },
-    {
-      id: 6,
-      name: 'Printed Boho Cushion',
-      description: 'Boho-inspired cushion with a fun and playful design.',
-      price: '₹1250',
-      image: 'https://th.bing.com/th/id/OIP.5FdLDD_i7pVXQTSipmBA6gHaHa?w=191&h=191&c=7&r=0&o=5&dpr=2&pid=1.7',
-    },
-  ];
+  useEffect(() => {
+    const fetchCushions = async () => {
+      try {
+        const response = await axios.get(
+          'http://localhost:2003/api/user/category?category=Cushions'
+        );
+        setCushions(response.data);
 
-  // Function to handle adding to wishlist
-  const handleAddToWishlist = (item) => {
-    setWishlist([...wishlist, item]);
+        const initialQuantities = {};
+        response.data.forEach((cushion) => {
+          initialQuantities[cushion.product_id] = 1;
+        });
+        setQuantities(initialQuantities);
+      } catch (error) {
+        console.error('Error fetching cushions:', error);
+      }
+      finally{
+        setIsLoading(false);
+      }
+    };
+
+    fetchCushions();
+  }, []);
+
+  const handleQuantityChange = (id, change) => {
+
+    setQuantities((prevQuantities) => ({
+      ...prevQuantities,
+      [id]: Math.max(1, prevQuantities[id] + change),
+    }));
   };
+
+  const handleAddToCart = async (cushion) => {
+    setIsLoading(true);
+    try {
+      const user = JSON.parse(localStorage.getItem('user'));
+      if (!user) {
+        alert('You must be logged in to add items to the cart.');
+        return;
+      }
+
+      const quantity = quantities[cushion.product_id] || 1;
+
+      const response = await axios.post(
+        `http://localhost:2003/api/user/cart/${user.user_id}/${cushion.product_id}/${quantity}`
+      );
+
+      if (response.status === 200) {
+        alert('Item successfully added to cart.');
+      } else {
+        alert('Failed to add item to the cart.');
+      }
+    } catch (error) {
+      console.error('Error adding item to cart:', error);
+      alert('Error adding to cart. Please try again.');
+    }
+    finally{
+      setIsLoading(false);
+    }
+  };
+
+  if (isLoading) {
+    return <Loader />; // Show loader while data is being fetched
+  }
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="text-3xl font-bold text-center mb-8">Cushions Collection</h1>
+      <h1 className="text-3xl font-bold text-center mb-8">Cushion Collection</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {cushions.map((item) => (
-          <div key={item.id} className="bg-white p-4 border rounded shadow">
-            <img src={item.image} alt={item.name} className="h-64 w-full object-cover mb-4" />
-            <h2 className="text-xl font-semibold mb-2">{item.name}</h2>
-            <p className="text-gray-700 mb-4">{item.description}</p>
-            <p className="text-xl font-bold mb-4">{item.price}</p>
-            <div className="flex justify-between">
-              <button className="bg-[#82d0fc] text-white px-4 py-2 rounded">Add to Cart</button>
-              <button
-                onClick={() => handleAddToWishlist(item)}
-                className="bg-red-400 text-white px-4 py-2 rounded"
-              >
-                Add to Wishlist
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
+        {cushions.length > 0 ? (
+          cushions.map((cushion) => (
+            <div key={cushion.product_id} className="bg-white p-4 border rounded shadow">
+              <img
+                src={cushion.image}
+                alt={cushion.productName}
+                className="h-64 w-full object-cover mb-4"
+              />
+              <h2 className="text-xl font-semibold mb-2">{cushion.productName}</h2>
+              <p className="text-gray-700 mb-4">{cushion.description}</p>
+              <p className="text-xl font-bold mb-4">₹{cushion.price}</p>
 
-      {/* Wishlist Section */}
-      <div className="mt-12">
-        <h2 className="text-2xl font-bold text-center mb-4">Your Wishlist</h2>
-        {wishlist.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {wishlist.map((item, index) => (
-              <div key={index} className="bg-white p-4 border rounded shadow">
-                <img src={item.image} alt={item.name} className="h-64 w-full object-cover mb-4" />
-                <h2 className="text-xl font-semibold mb-2">{item.name}</h2>
-                <p className="text-gray-700 mb-4">{item.description}</p>
-                <p className="text-xl font-bold mb-4">{item.price}</p>
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-gray-700">Quantity:</span>
+                <div className="flex items-center">
+                  <button
+                    onClick={() => handleQuantityChange(cushion.product_id, -1)}
+                    className="bg-gray-300 text-black px-2 py-1 rounded hover:bg-gray-400"
+                  >
+                    -
+                  </button>
+                  <input
+                    type="text"
+                    value={quantities[cushion.product_id] || 1}
+                    readOnly
+                    className="w-10 text-center border px-2 py-1 mx-2"
+                  />
+                  <button
+                    onClick={() => handleQuantityChange(cushion.product_id, 1)}
+                    className="bg-gray-300 text-black px-2 py-1 rounded hover:bg-gray-400"
+                  >
+                    +
+                  </button>
+                </div>
               </div>
-            ))}
-          </div>
+
+              <div className="flex justify-between">
+                <button
+                  onClick={() => handleAddToCart(cushion)}
+                  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                >
+                  Add to Cart
+                </button>
+                
+              </div>
+            </div>
+          ))
         ) : (
-          <p className="text-center">Your wishlist is empty.</p>
+          <p className="text-center text-gray-700">No cushions available in this category.</p>
         )}
       </div>
     </div>

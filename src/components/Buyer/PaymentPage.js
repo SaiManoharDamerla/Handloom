@@ -1,97 +1,66 @@
-import React from 'react';
-import { Link } from 'react-router-dom'; // Import Link for navigation
+import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import Loader from "../Shared/Loader"; // Import your Loader component
+import axios from "axios";
 
-const PaymentPage = () => {
+export default function PaymentPage() {
+  const location = useLocation();
+  const [feeAmount, setFeeAmount] = useState(0);
+  const [loading, setLoading] = useState(false); // State to handle loader visibility
+
+  useEffect(() => {
+    if (location?.state?.totalPrice) {
+      setFeeAmount(location.state.totalPrice);
+    }
+  }, [location.state?.totalPrice]);
+
+  const navigate = useNavigate();
+
+  const handlePayment = async () => {
+    try {
+      setLoading(true); // Show loader
+      const options = {
+        key: "rzp_test_Uhtl0BJG22vFeZ",
+        amount: parseFloat(feeAmount) * 100,
+        currency: "INR",
+        name: "Handloom Payments",
+        description: "Payment for Handloom Items",
+      };
+
+      const razorpay = new window.Razorpay(options);
+
+      // Open Razorpay window
+      razorpay.open();
+
+      // Wait a short duration to ensure Razorpay is initialized
+      setTimeout(() => {
+        setLoading(false); // Hide loader after Razorpay's window appears
+      }, 1000);
+
+      navigate("/buyer/orderconfirmation");
+    } catch (error) {
+      console.error("Payment failed", error);
+      setLoading(false);
+    }
+  };
+
   return (
-    <section className="h-screen flex items-center justify-center bg-neutral-200 dark:bg-neutral-100">
-      <div className="container max-w-lg mx-auto p-10">
-        <div className="flex flex-col items-center justify-center text-neutral-800 dark:text-neutral-200">
-          <div className="w-full">
-            <div className="g-0">
-              <div className="px-4 md:px-0">
-                <div className="md:mx-6 md:p-12">
-                  <div className="text-center">
-                    <img
-                      className="mx-auto w-24 mb-6"
-                      src="https://tse1.mm.bing.net/th?id=OIG3.0CS_8N.4hPaCHTUXCjpw&pid=ImgGn"
-                      alt="logo"
-                    />
-                    <h4 className="mb-12 text-xl font-semibold text-black">
-                      Complete Your Payment
-                    </h4>
-                  </div>
-
-                  <form>
-                    {/* Name on Card Input */}
-                    <div className="mb-4">
-                      <label className="block mb-2 text-sm font-medium text-black">Name on Card</label>
-                      <input
-                        type="text"
-                        className="w-full px-3 py-2 text-black bg-white border rounded-md focus:border-blue-400 focus:outline-none"
-                        placeholder="Enter Name on Card"
-                      />
-                    </div>
-
-                    {/* Card Number Input */}
-                    <div className="mb-4">
-                      <label className="block mb-2 text-sm font-medium text-black">Card Number</label>
-                      <input
-                        type="text"
-                        className="w-full px-3 py-2 text-black bg-white border rounded-md focus:border-blue-400 focus:outline-none"
-                        placeholder="1234 5678 9123 4567"
-                      />
-                    </div>
-
-                    {/* Expiration Date and CVV */}
-                    <div className="grid grid-cols-2 gap-4 mb-4">
-                      <div>
-                        <label className="block mb-2 text-sm font-medium text-black">Expiration Date</label>
-                        <input
-                          type="text"
-                          className="w-full px-3 py-2 text-black bg-white border rounded-md focus:border-blue-400 focus:outline-none"
-                          placeholder="MM/YY"
-                        />
-                      </div>
-                      <div>
-                        <label className="block mb-2 text-sm font-medium text-black">CVV</label>
-                        <input
-                          type="text"
-                          className="w-full px-3 py-2 text-black bg-white border rounded-md focus:border-blue-400 focus:outline-none"
-                          placeholder="123"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Payment Button */}
-                    <div className="mb-12 pt-1 text-center">
-                      <Link to="/buyer/ordersummary">
-                        <button
-                          className="w-full px-6 py-2.5 text-white rounded shadow-md transition duration-150 ease-in-out"
-                          style={{
-                            background: "linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)",
-                          }}
-                          type="button"
-                        >
-                          Pay Now
-                        </button>
-                      </Link>
-                    </div>
-
-                    {/* Order Summary Link */}
-                    <div className="text-center">
-                      <Link to="/buyer/cart" className="text-blue-500 hover:underline">
-                        Back to Cart
-                      </Link>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
+    <div className="flex">
+      {loading && <Loader />} {/* Show Loader if in loading state */}
+      <div className="flex-1 bg-gray-100 min-h-screen p-8">
+        <div className="bg-white p-6 rounded-lg shadow-lg max-w-xl mx-auto">
+          <h1 className="text-3xl font-bold text-slate-800 mb-6 text-center">Pay Handloom Fashion</h1>
+          <h4 className="text-3xl font-bold text-green-600 mb-6 text-center">Total Amount to Pay: ₹{feeAmount}</h4>
+          
+          <button
+            onClick={handlePayment}
+            style={{ backgroundImage: 'linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)' }}
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white py-4 px-6 rounded hover:opacity-90 transition duration-300"
+          >
+            Pay Now
+          </button>
         </div>
       </div>
-    </section>
+    </div>
   );
-};
-
-export default PaymentPage;
+}
